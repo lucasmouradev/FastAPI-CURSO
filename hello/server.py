@@ -1,8 +1,16 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
 
-@app.get('/')
-async def root():
-    return {"message":"Olá FastAPI :)"}
+
+class Produto(BaseModel):
+    nome: str
+    preco: float
+
+
+@app.post('/produtos')
+def produtos(produto: Produto):
+    return {'mensagem': f'Produto ({produto.nome} -- R$ {produto.preco}) cadastrado com sucesso !'}
+
